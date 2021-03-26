@@ -1,16 +1,32 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image} from 'react-native';
+import {SafeAreaView, StyleSheet, View, Text, Image,TouchableHighlight} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../../consts/colors';
-import foods from '../../../consts/foods';
 import {PrimaryButton} from '../../components/Button';
+import nomorPenting from "../../../consts/nomorPenting";
+import * as Linking from 'expo-linking';
+
 
 const SiagaScreen = ({navigation}) => {
+
+   const makeCall = (number) => {
+
+        let phoneNumber = '';
+
+        if (Platform.OS === 'android') {
+            phoneNumber = `tel:${number}`;
+        } else {
+            phoneNumber = `telprompt:${number}`;
+        }
+
+        Linking.openURL(phoneNumber);
+    };
+
     const CartCard = ({item}) => {
         return (
             <View style={style.cartCard}>
-                <Image source={item.image} style={{height: 80, width: 80}} />
+                <Image source={item.image} style={{height: 70, width: 70}} />
                 <View
                     style={{
                         height: 100,
@@ -19,17 +35,9 @@ const SiagaScreen = ({navigation}) => {
                         flex: 1,
                     }}>
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.name}</Text>
-                    <Text style={{fontSize: 13, color: COLORS.grey}}>
-                        {item.ingredients}
+                    <Text style={{fontSize: 18, color: COLORS.grey}}>
+                        {item.nomor}
                     </Text>
-                    <Text style={{fontSize: 17, fontWeight: 'bold'}}>${item.price}</Text>
-                </View>
-                <View style={{marginRight: 20, alignItems: 'center'}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>3</Text>
-                    {/*<View style={style.actionBtn}>*/}
-                    {/*  <Icon name="remove" size={25} color={COLORS.white} />*/}
-                    {/*  <Icon name="add" size={25} color={COLORS.white} />*/}
-                    {/*</View>*/}
                 </View>
             </View>
         );
@@ -43,7 +51,7 @@ const SiagaScreen = ({navigation}) => {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{paddingBottom: 80}}
-                data={foods}
+                data={nomorPenting}
                 renderItem={({item}) => <CartCard item={item} />}
                 ListFooterComponentStyle={{paddingHorizontal: 20, marginTop: 20}}
 
@@ -59,7 +67,7 @@ const style = StyleSheet.create({
         marginHorizontal: 20,
     },
     cartCard: {
-        height: 100,
+        height: 80,
         elevation: 15,
         borderRadius: 10,
         backgroundColor: COLORS.white,

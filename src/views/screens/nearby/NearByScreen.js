@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, View, Text, Image, Dimensions} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList, TouchableHighlight} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../../consts/colors';
 import foods from '../../../consts/foods';
@@ -60,6 +60,18 @@ const NearbyScreen = ({navigation}) => {
                 <Icon name='menu' size={40}
                       color={COLORS.primary}/>
             </View>
+            <View style={style.cartCard}>
+                <Icon name='place' size={40} color={COLORS.primary}></Icon>
+                <View
+                    style={{
+                        height: 40,
+                        marginLeft: 10,
+                        paddingVertical: 20,
+                        flex: 1,
+                    }}>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>WIFI</Text>
+                </View>
+            </View>
         </View>
     );
 
@@ -107,7 +119,7 @@ const style = StyleSheet.create({
         height: Dimensions.get('window').height,
     },
     cartCard: {
-        height: 100,
+        height: 40,
         elevation: 15,
         borderRadius: 10,
         backgroundColor: COLORS.white,

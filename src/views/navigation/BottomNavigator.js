@@ -20,6 +20,7 @@ import PanganScreen from "../screens/pangan/PanganScreen";
 import PariwisataScreen from "../screens/pariwisata/PariwisataScreen";
 import ResponsScreen from "../screens/respons/ResponsScreen";
 import SiagaScreen from "../screens/siaga/SiagaScreen";
+import CovidScreen from "../screens/covid/CovidScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -72,6 +73,11 @@ const StackHome = () => (
                           headerShown: false,
                       }}
         />
+        <Stack.Screen name="CovidScreen" component={CovidScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
 
     </Stack.Navigator>
 )
@@ -108,7 +114,7 @@ const BottomNavigator = () => {
                 name="NearBy"
                 component={NearbyScreen}
                 options={{
-                    tabBarLabel: 'Near By',
+                    tabBarLabel: 'Sekitar',
                     tabBarIcon: ({color}) => (
                         <Icon name="rss-feed" color={color} size={28}/>
                     ),

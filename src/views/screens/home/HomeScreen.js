@@ -8,6 +8,8 @@ import menus from "../../../consts/menus";
 import menusMore from "../../../consts/menusMore";
 import sliders from "../../../consts/sliders";
 import BottomSheet from 'reanimated-bottom-sheet';
+import bencanas from "../../../consts/bencanas";
+import covids from "../../../consts/covid";
 
 const {width, height} = Dimensions.get('screen');
 
@@ -109,36 +111,43 @@ const HomeScreen = ({navigation}) => {
 
     };
 
-    const Card = ({food}) => {
+    const Card = ({covid}) => {
         return (
             <TouchableHighlight
                 underlayColor={COLORS.white}
                 activeOpacity={0.9}
-                onPress={() => navigation.navigate('DetailsScreen', food)}>
+                onPress={() => navigation.navigate('DetailsScreen', covid)}>
                 <View style={style.card}>
                     <View style={{alignItems: 'center', padding: 10}}>
-                        <Image source={food.image} style={{height: 120, width: 120}}/>
+                        <Icon name={covid.icon} size={120} color={COLORS.primary}></Icon>
                     </View>
                     <View style={{marginHorizontal: 20}}>
-                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>{food.name}</Text>
-                        <Text style={{fontSize: 14, color: COLORS.grey, marginTop: 2}}>
-                            {food.ingredients}
+                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>{covid.name}</Text>
+                        <Text style={{fontSize: 14,textAlign:'left', color: COLORS.grey, marginTop: 2}}>
+                            {covid.deskripsi}
                         </Text>
                     </View>
-                    {/*<View*/}
-                    {/*    style={{*/}
-                    {/*        marginTop: 10,*/}
-                    {/*        marginHorizontal: 20,*/}
-                    {/*        flexDirection: 'row',*/}
-                    {/*        justifyContent: 'space-between',*/}
-                    {/*    }}>*/}
-                    {/*    <Text style={{fontSize: 18, fontWeight: 'bold'}}>*/}
-                    {/*        ${food.price}*/}
-                    {/*    </Text>*/}
-                    {/*    <View style={style.addToCartBtn}>*/}
-                    {/*        <Icon name="add" size={20} color={COLORS.white}/>*/}
-                    {/*    </View>*/}
-                    {/*</View>*/}
+                </View>
+            </TouchableHighlight>
+        );
+    };
+
+    const CardBencana = ({bencanas}) => {
+        return (
+            <TouchableHighlight
+                underlayColor={COLORS.white}
+                activeOpacity={0.9}
+                onPress={() => navigation.navigate('DetailsScreen', bencanas)}>
+                <View style={style.card}>
+                    <View style={{alignItems: 'center', padding: 10}}>
+                        <Icon name={bencanas.icon} size={120} color={COLORS.primary}></Icon>
+                    </View>
+                    <View style={{marginHorizontal: 20}}>
+                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>{bencanas.name}</Text>
+                        <Text style={{fontSize: 14, color: COLORS.grey, marginTop: 2}}>
+                            {bencanas.deskripsi}
+                        </Text>
+                    </View>
                 </View>
             </TouchableHighlight>
         );
@@ -167,18 +176,14 @@ const HomeScreen = ({navigation}) => {
                     <View>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={{fontSize: 28}}>Hello,</Text>
-                            <Text style={{fontSize: 28, fontWeight: 'bold', marginLeft: 10}}>
+                            <Text style={{fontSize: 28, fontWeight: 'bold', marginLeft: 10,color:COLORS.primary}}>
                                 Sumbar Madani
                             </Text>
                         </View>
-                        <Text style={{marginTop: 5, fontSize: 22, color: COLORS.grey}}>
-                            What do you want today
+                        <Text style={{marginTop: 5, fontSize: 18, color: COLORS.grey}}>
+                            Apo kaba dunsanak awak hari ko
                         </Text>
                     </View>
-                    {/*<Image*/}
-                    {/*    source={require('../../assets/person.png')}*/}
-                    {/*    style={{height: 50, width: 50, borderRadius: 25}}*/}
-                    {/*/>*/}
                 </View>
                 <View style={{ paddingHorizontal: 20,marginTop:30}}>
                     <Text style={{fontSize: 14, color: COLORS.dark,fontWeight:'bold'}}>
@@ -222,9 +227,27 @@ const HomeScreen = ({navigation}) => {
                 </View>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    numColumns={2}
-                    data={foods}
-                    renderItem={({item}) => <Card food={item}/>}
+                    // numColumns={2}
+                    horizontal
+                    data={covids}
+                    renderItem={({item}) => <Card covid={item}/>}
+                    listKey={(item, index) => index.toString()}
+
+                />
+                <View style={{ paddingHorizontal: 20,marginTop:30,flexDirection:'row', justifyContent: 'space-between',}}>
+                    <Text style={{fontSize: 14, color: COLORS.dark,fontWeight:'bold',textAlign:'left'}}>
+                        Sumbar Bencana
+                    </Text>
+                    <Text onPress={() => navigation.navigate('BencanaScreen')} style={{textDecorationLine: 'underline',fontSize: 14, color: COLORS.primary,textAlign:'right'}}>
+                        Lihat Semua
+                    </Text>
+                </View>
+                <FlatList
+                    horizontal
+                    showsVerticalScrollIndicator={false}
+                    // numColumns={2}
+                    data={bencanas}
+                    renderItem={({item}) => <CardBencana bencanas={item}/>}
                     listKey={(item, index) => index.toString()}
 
                 />
@@ -321,7 +344,7 @@ const style = StyleSheet.create({
         alignItems: 'center',
     },
     card: {
-        height: 220,
+        height: 240,
         width: cardWidth,
         marginHorizontal: 10,
         marginBottom: 20,
@@ -335,7 +358,7 @@ const style = StyleSheet.create({
         backgroundColor: COLORS.white,
     },
     menus: {
-        height: 90,
+        height: 85,
         width: menusWidth,
         marginHorizontal: menusWidthPadding,
         marginBottom: 20,

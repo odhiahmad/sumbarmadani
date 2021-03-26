@@ -1,45 +1,39 @@
 const bencanas = [
     {
         id: '1',
-        name: 'Sumbar News',
-        icon: 'place',
+        name: 'Kebakaran',
+        icon: 'fire-extinguisher',
         url: 'NewsScreen',
-        image: require('../assets/iconmenu/berita.png')
+        deskripsi:'Bencana Kebakaran Yang Terjadi di Wilayah Sumbar',
+
     },
     {
         id: '2',
-        name: 'Sumbar Respons',
-        icon: 'place',
+        name: 'Banjir',
+        icon: 'water-damage',
         url: 'ResponsScreen',
-        image: require('../assets/iconmenu/berita.png')
+        deskripsi:'Bencana Banjir Yang Terjadi di Wilayah Sumbar',
     },
     {
         id: '3',
-        name: 'Sumbar Bencana',
-        icon: 'place',
+        name: 'Tanah Longsor',
+        icon: 'broken-image',
         url: 'BencanaScreen',
-        image: require('../assets/iconmenu/bencana.png')
+        deskripsi:'Bencana Tanah Longsor Yang Terjadi di Wilayah Sumbar',
     },
     {
         id: '4',
-        name: 'Sumbar Pangan',
+        name: 'Terban',
         icon: 'place',
         url:'PanganScreen',
-        image: require('../assets/iconmenu/pangan.png')
+        deskripsi:'Bencana Terban Yang Terjadi di Wilayah Sumbar',
     },
     {
         id: '5',
-        name: 'Sumbar Pariwisata',
-        icon: 'place',
+        name: 'Lalu Lintas',
+        icon: 'traffic',
         url:'PariwisataScreen',
-        image: require('../assets/iconmenu/pariwisatapariwisata.png')
-    },
-    {
-        id: '6',
-        name: 'Sumbar Siaga',
-        icon: 'place',
-        url:'SiagaScreen',
-        image: require('../assets/iconmenu/nomorpenting.png')
+        deskripsi:'Kecelakaan Lalu Lintas Yang Terjadi di Wilayah Sumbar',
     },
 ];
 

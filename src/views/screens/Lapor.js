@@ -9,34 +9,6 @@ import {PrimaryButton} from '../components/Button';
 import { Camera } from 'expo-camera';
 
 const Lapor = ({navigation}) => {
-    const CartCard = ({item}) => {
-        return (
-            <View style={style.cartCard}>
-                <Image source={item.image} style={{height: 80, width: 80}} />
-                <View
-                    style={{
-                        height: 100,
-                        marginLeft: 10,
-                        paddingVertical: 20,
-                        flex: 1,
-                    }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.name}</Text>
-                    <Text style={{fontSize: 13, color: COLORS.grey}}>
-                        {item.ingredients}
-                    </Text>
-                    <Text style={{fontSize: 17, fontWeight: 'bold'}}>${item.price}</Text>
-                </View>
-                <View style={{marginRight: 20, alignItems: 'center'}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>3</Text>
-                    {/*<View style={style.actionBtn}>*/}
-                    {/*  <Icon name="remove" size={25} color={COLORS.white} />*/}
-                    {/*  <Icon name="add" size={25} color={COLORS.white} />*/}
-                    {/*</View>*/}
-                </View>
-            </View>
-        );
-    };
-
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
 
@@ -56,10 +28,10 @@ const Lapor = ({navigation}) => {
 
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-            <Camera style={styles.camera} type={type}>
-                <View style={styles.buttonContainer}>
+            <Camera style={style.camera} type={type}>
+                <View style={style.buttonContainer}>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={style.button}
                         onPress={() => {
                             setType(
                                 type === Camera.Constants.Type.back
@@ -67,7 +39,7 @@ const Lapor = ({navigation}) => {
                                     : Camera.Constants.Type.back
                             );
                         }}>
-                        <Text style={styles.text}> Flip </Text>
+                        <Text style={style.text}> Flip </Text>
                     </TouchableOpacity>
                 </View>
             </Camera>

@@ -5,12 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../../consts/colors';
 import foods from '../../../consts/foods';
 import {PrimaryButton} from '../../components/Button';
+import covids from "../../../consts/covid";
 
 const LawanCoronaScreen = ({navigation}) => {
     const CartCard = ({item}) => {
         return (
             <View style={style.cartCard}>
-                <Image source={item.image} style={{height: 80, width: 80}} />
+                <Icon name={item.icon} size={60} color={COLORS.primary}></Icon>
                 <View
                     style={{
                         height: 100,
@@ -20,16 +21,8 @@ const LawanCoronaScreen = ({navigation}) => {
                     }}>
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.name}</Text>
                     <Text style={{fontSize: 13, color: COLORS.grey}}>
-                        {item.ingredients}
+                        {item.deskripsi}
                     </Text>
-                    <Text style={{fontSize: 17, fontWeight: 'bold'}}>${item.price}</Text>
-                </View>
-                <View style={{marginRight: 20, alignItems: 'center'}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>3</Text>
-                    {/*<View style={style.actionBtn}>*/}
-                    {/*  <Icon name="remove" size={25} color={COLORS.white} />*/}
-                    {/*  <Icon name="add" size={25} color={COLORS.white} />*/}
-                    {/*</View>*/}
                 </View>
             </View>
         );
@@ -43,7 +36,7 @@ const LawanCoronaScreen = ({navigation}) => {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{paddingBottom: 80}}
-                data={foods}
+                data={covids}
                 renderItem={({item}) => <CartCard item={item} />}
                 ListFooterComponentStyle={{paddingHorizontal: 20, marginTop: 20}}
 

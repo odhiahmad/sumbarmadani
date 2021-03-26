@@ -1,7 +1,7 @@
 const menus = [
     {
         id: '1',
-        name: 'Sumbar News',
+        name: 'Sumbar Berita',
         icon: 'place',
         url: 'NewsScreen',
         image: require('../assets/iconmenu/berita.png')
