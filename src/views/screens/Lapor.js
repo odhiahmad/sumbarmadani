@@ -1,10 +1,12 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image} from 'react-native';
+import React, {useEffect, useMemo, useReducer,useState} from 'react';
+
+import {SafeAreaView, StyleSheet, View, Text, Image,TouchableOpacity} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import foods from '../../consts/foods';
 import {PrimaryButton} from '../components/Button';
+import { Camera } from 'expo-camera';
 
 const Lapor = ({navigation}) => {
     const CartCard = ({item}) => {
@@ -34,24 +36,66 @@ const Lapor = ({navigation}) => {
             </View>
         );
     };
+
+    const [hasPermission, setHasPermission] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.back);
+
+    useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestPermissionsAsync();
+            setHasPermission(status === 'granted');
+        })();
+    }, []);
+
+    if (hasPermission === null) {
+        return <View />;
+    }
+    if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
+
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-            <View style={style.header}>
-                <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack} />
-                <Text style={{fontSize: 20, fontWeight: 'bold'}}>Lapor</Text>
-            </View>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{paddingBottom: 80}}
-                data={foods}
-                renderItem={({item}) => <CartCard item={item} />}
-                ListFooterComponentStyle={{paddingHorizontal: 20, marginTop: 20}}
-
-            />
+            <Camera style={styles.camera} type={type}>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            setType(
+                                type === Camera.Constants.Type.back
+                                    ? Camera.Constants.Type.front
+                                    : Camera.Constants.Type.back
+                            );
+                        }}>
+                        <Text style={styles.text}> Flip </Text>
+                    </TouchableOpacity>
+                </View>
+            </Camera>
         </SafeAreaView>
     );
 };
 const style = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    camera: {
+        flex: 1,
+    },
+    buttonContainer: {
+        flex: 1,
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        margin: 20,
+    },
+    button: {
+        flex: 0.1,
+        alignSelf: 'flex-end',
+        alignItems: 'center',
+    },
+    text: {
+        fontSize: 18,
+        color: 'white',
+    },
     header: {
         paddingVertical: 20,
         flexDirection: 'row',

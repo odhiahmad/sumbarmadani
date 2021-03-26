@@ -2,17 +2,79 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {createStackNavigator} from '@react-navigation/stack';
 import COLORS from '../../consts/colors';
 import {View} from 'react-native';
-import HomeScreen from '../screens/HomeScreen';
-import CartScreen from '../screens/CartScreen';
+import HomeScreen from '../screens/home/HomeScreen';
 import Notifikasi from "../screens/Notifikasi";
-import Aktivitas from "../screens/Aktivitas";
+import NearbyScreen from "../screens/nearby/NearByScreen";
 import Profil from "../screens/Profil";
 import Lapor from "../screens/Lapor";
 
+import BencanaScreen from "../screens/bencana/BencanaScreen";
+import DigitalTalentScreen from "../screens/digitalTalent/DigitalTalentScreen";
+
+import LawanCoronaScreen from "../screens/lawanCorona/LawanCoronaScreen";
+import NewsScreen from "../screens/news/NewsScreen";
+import PanganScreen from "../screens/pangan/PanganScreen";
+import PariwisataScreen from "../screens/pariwisata/PariwisataScreen";
+import ResponsScreen from "../screens/respons/ResponsScreen";
+import SiagaScreen from "../screens/siaga/SiagaScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const StackHome = () => (
+    <Stack.Navigator>
+
+        <Stack.Screen name="HomeScreen" component={HomeScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="BencanaScreen" component={BencanaScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="DigitalTalentScreen" component={DigitalTalentScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="LawanCoronaScreen" component={LawanCoronaScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="NewsScreen" component={NewsScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="PanganScreen" component={PanganScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="PariwisataScreen" component={PariwisataScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="ResponsScreen" component={ResponsScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="SiagaScreen" component={SiagaScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+
+    </Stack.Navigator>
+)
 
 const BottomNavigator = () => {
     return (
@@ -34,7 +96,7 @@ const BottomNavigator = () => {
             }}>
             <Tab.Screen
                 name="HomeScreen"
-                component={HomeScreen}
+                component={StackHome}
                 options={{
                     tabBarLabel: 'Beranda',
                     tabBarIcon: ({color}) => (
@@ -43,12 +105,12 @@ const BottomNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name="LocalMall"
-                component={Aktivitas}
+                name="NearBy"
+                component={NearbyScreen}
                 options={{
-                    tabBarLabel: 'Aktivitas',
+                    tabBarLabel: 'Near By',
                     tabBarIcon: ({color}) => (
-                        <Icon name="work" color={color} size={28}/>
+                        <Icon name="rss-feed" color={color} size={28}/>
                     ),
                 }}
             />
@@ -68,7 +130,7 @@ const BottomNavigator = () => {
                                 borderColor: COLORS.primary,
                                 borderWidth: 2,
                                 borderRadius: 30,
-                                top: -25,
+                                top: -15,
                                 elevation: 5,
                             }}>
                             <Icon name="camera-alt" color={COLORS.primary} size={28}/>
