@@ -4,7 +4,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import {SecondaryButton} from '../components/Button';
-
+import HTML from "react-native-render-html";
 const DetailsScreen = ({navigation, route}) => {
   const item = route.params;
 
