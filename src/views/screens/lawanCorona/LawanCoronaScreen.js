@@ -9,9 +9,9 @@ const LawanCoronaScreen = ({navigation}) => {
     const CartCard = ({item}) => {
         return (
 
-            <TouchableOpacity
-                // underlayColor={COLORS.white}
-                // activeOpacity={0.9}
+            <TouchableHighlight
+                underlayColor={COLORS.white}
+                activeOpacity={0.9}
                 onPress={() => navigation.navigate(item.url)}>
                 <View style={style.cartCard}>
                     <Icon name={item.icon} size={60} color={COLORS.primary}></Icon>
@@ -28,7 +28,7 @@ const LawanCoronaScreen = ({navigation}) => {
                         </Text>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
         );
     };
     return (
@@ -43,6 +43,8 @@ const LawanCoronaScreen = ({navigation}) => {
                 data={covids}
                 renderItem={({item}) => <CartCard item={item}/>}
                 ListFooterComponentStyle={{paddingHorizontal: 20, marginTop: 20}}
+                listKey={(item, index) => index.toString()}
+                keyExtractor={(item, index) => index.toString()}
 
             />
         </SafeAreaView>
@@ -57,7 +59,7 @@ const style = StyleSheet.create({
     },
     cartCard: {
         height: 100,
-        elevation: 15,
+        elevation: 2,
         borderRadius: 10,
         backgroundColor: COLORS.white,
         marginVertical: 10,

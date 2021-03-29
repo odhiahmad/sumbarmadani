@@ -18,6 +18,7 @@ import LawanCoronaScreen from "../screens/lawanCorona/LawanCoronaScreen";
 import NewsScreen from "../screens/news/NewsScreen";
 import PanganScreen from "../screens/pangan/PanganScreen";
 import PariwisataScreen from "../screens/pariwisata/PariwisataScreen";
+
 import ResponsScreen from "../screens/respons/ResponsScreen";
 import SiagaScreen from "../screens/siaga/SiagaScreen";
 import CovidScreen from "../screens/covid/CovidScreen";
@@ -33,6 +34,7 @@ import CoronaGejala from "../screens/lawanCorona/CoronaGejala";
 import CoronaJumlahKasus from "../screens/lawanCorona/CoronaJumlahKasus";
 import CoronaNomor from "../screens/lawanCorona/CoronaNomor";
 import CoronaPetunjukTeknis from "../screens/lawanCorona/CoronaPetunjukTeknis";
+import DetailPariwisataScreen from "../screens/pariwisata/DetailPariwisataScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -46,7 +48,11 @@ const StackHome = () => (
                           headerShown: false,
                       }}
         />
-
+        <Stack.Screen name="DetailPariwisataScreen" component={DetailPariwisataScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
         <Stack.Screen name="CoronaBerita" component={CoronaBerita}
                       options={{
                           headerShown: false,

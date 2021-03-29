@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../../consts/colors';
 import foods from '../../../consts/foods';
 import {PrimaryButton} from '../../components/Button';
-import {apiBerita} from "../../../consts/api";
+import {apiBerita, apiPariwisata} from "../../../consts/api";
 import axios from "axios";
 // const axios = require('axios');
 import {WebView} from 'react-native-webview';
@@ -23,89 +23,32 @@ export default function PariwisataScreen({navigation}) {
 
     const [data, setData] = useState({
         data: [],
-        id: [],
-        cocok: 0,
+        id: null,
         loading: false,
         isRefreshing: false,
 
     });
 
-    const [page, setPage] = useState(0)
 
-    const handleLoadMore = () => {
-
-        if (!data.loading) {
-            getIndex()
-        }
-    };
-
-    // useEffect(() => {
-    //     handleLoadMore()
-    // });
-
-    const renderFooter = () => {
-        //it will show indicator at the bottom of the list when data is loading otherwise it returns null
-        if (!data.loading) return null;
-        return (
-            <ActivityIndicator
-                size="small"
-                color={COLORS.primary}
-                animating={true}/>
-        );
-    };
-
-    const onRefresh = async () => {
-        setData({
-            ...data,
-            loading: true,
-            isRefreshing: true,
-            page: 0
-        })
-
-        await axios.get(apiBerita + "json_list_newsUpdate_pagging.php?id_content=0")
-            .then(response => {
-
-                setTimeout(() => {
-                    setData({
-                        ...data,
-                        loading: false,
-                        data: response.data.list_berita,
-                        isRefreshing: false
-                    })
-                }, 2000)
-            })
-            .catch(error => {
-                setData({
-                    ...data,
-                    loading: false,
-                    isRefreshing: false
-                })
-                console.log(error);
-            });
-    }
 
     const getIndex = async () => {
-        console.log('Sebelum : ' + data.cocok)
+
         setData({
             ...data,
             loading: true,
         })
 
-        await axios.get(apiBerita + "json_list_newsUpdate_pagging.php?id_content=" + data.cocok)
+        await axios.get(apiPariwisata + "banner_daerah")
             .then(response => {
-                // console.log('getting data from axios', response.data.list_berita);
                 setTimeout(() => {
-                    let listData = data.data;
-                    // console.log(response.data.list_berita)
                     setData({
                         ...data,
                         loading: false,
-                        data: listData.concat(response.data.list_berita),
-                        cocok: data.cocok + 1
+                        data: response.data.daerah,
                     })
 
                     // setPage(page+1)
-                    console.log('Sesudah :' + data.cocok)
+
                 }, 2000)
             })
             .catch(error => {
@@ -116,18 +59,6 @@ export default function PariwisataScreen({navigation}) {
                 console.log(error);
             });
     }
-
-    const renderSeparator = () => {
-        return (
-            <View
-                style={{
-                    height: 1,
-                    width: '100%',
-                    backgroundColor: '#CED0CE'
-                }}
-            />
-        );
-    };
 
     useEffect(() => {
         // Fetch the token from storage then navigate to our appropriate place
@@ -140,27 +71,21 @@ export default function PariwisataScreen({navigation}) {
             <TouchableHighlight
                 underlayColor={COLORS.white}
                 activeOpacity={0.9}
-                onPress={() => navigation.navigate('DetailInfoPariwisataScreen', item)}>
-                {/*<Image source={item.image} style={{height: 80, width: 80}}/>*/}
+                onPress={() => navigation.navigate('DetailPariwisataScreen', item)}>
                 <View style={style.cartCard}>
                     <View
                         style={{
-                            height: cardHeightBerita - 10,
+                            height: 60,
                             marginLeft: 10,
                             paddingVertical: 20,
                             flex: 1,
                         }}>
-                        <Text style={{fontSize: 13}}>{item.title_content}</Text>
-                        <Text style={{fontSize: 11, color: 'gray'}}>Oleh {item.nama_asn}</Text>
-                        <Text style={{
-                            fontSize: 11,
-                            color: 'gray'
-                        }}>{moment(item.created_at).startOf('day').fromNow()}</Text>
+                        <Text style={{fontSize: 13}}>{item.title}</Text>
                     </View>
                     <View style={{marginRight: 20, alignItems: 'center'}}>
                         <Text style={{
                             fontWeight: 'bold',
-                            fontSize: 16,
+                            fontSize: 14,
                             textDecorationLine: 'underline',
                             color: COLORS.primary
                         }}>Lihat</Text>
@@ -171,8 +96,8 @@ export default function PariwisataScreen({navigation}) {
     };
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-            {/*<LoaderModal*/}
-            {/*    loading={data.loading}/>*/}
+            <LoaderModal
+                loading={data.loading}/>
             <View style={style.header}>
                 <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Sumbar Pariwisata</Text>
@@ -181,7 +106,7 @@ export default function PariwisataScreen({navigation}) {
                 refreshControl={
                     <RefreshControl
                         refreshing={data.isRefreshing}
-                        onRefresh={onRefresh.bind(this)}
+                        onRefresh={getIndex}
                     />
                 }
                 showsVerticalScrollIndicator={false}
@@ -189,12 +114,9 @@ export default function PariwisataScreen({navigation}) {
                 data={data.data}
                 renderItem={({item}) => <CartCardNews item={item}/>}
                 ListFooterComponentStyle={{paddingHorizontal: 20, marginTop: 20}}
-                ItemSeparatorComponent={renderSeparator}
-                ListFooterComponent={renderFooter.bind(this)}
                 listKey={(item, index) => index.toString()}
                 keyExtractor={(item, index) => index.toString()}
-                onEndReachedThreshold={0.4}
-                onEndReached={handleLoadMore}
+
 
             />
         </SafeAreaView>
@@ -208,8 +130,8 @@ const style = StyleSheet.create({
         marginHorizontal: 20,
     },
     cartCard: {
-        height: cardHeightBerita,
-        elevation: 15,
+        height: 60,
+        elevation: 2,
         borderRadius: 10,
         backgroundColor: COLORS.white,
         marginVertical: 10,

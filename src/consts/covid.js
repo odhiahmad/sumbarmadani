@@ -3,7 +3,7 @@ const covids = [
         id: '1',
         name: 'Jumlah Kasus',
         icon: 'fire-extinguisher',
-        url: 'CoronaJumlaKasus',
+        url: 'CoronaJumlahKasus',
         deskripsi:'Jumlah Kasus Terbaru Corona',
 
     },
