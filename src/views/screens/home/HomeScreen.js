@@ -20,6 +20,8 @@ const menusWidthPadding = width / 40
 const bottomSheetHeight = height / 2;
 const menusHeight = height / 8;
 
+
+
 const HomeScreen = ({navigation}) => {
     const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
 
@@ -51,27 +53,27 @@ const HomeScreen = ({navigation}) => {
         </View>
     );
 
-    const sheetRef = React.useRef(null);
+    const sheetRef = React.useRef(1);
 
     const ListCategoriesMenu = ({menuKit}) => {
 
-        if (menuKit.name === 'Lainnya') {
-            return (
-                <TouchableHighlight
-                    underlayColor={COLORS.white}
-                    activeOpacity={0.6}
-                    onPress={() => sheetRef.current.snapTo(0)}>
-                    <View style={style.menus}>
-                        <View style={{alignItems: 'center', padding: 5}}>
-                            <Image source={menuKit.image} style={{height: 40, width: 40}}/>
-                        </View>
-                        <View style={{alignItems: 'center', marginHorizontal: 10, textAlign: 'center'}}>
-                            <Text style={{fontSize: 10, textAlign: 'center'}}>{menuKit.name}</Text>
-                        </View>
-                    </View>
-                </TouchableHighlight>
-            );
-        } else {
+        // if (menuKit.name === 'Lainnya') {
+        //     return (
+        //         <TouchableHighlight
+        //             underlayColor={COLORS.white}
+        //             activeOpacity={0.6}
+        //             onPress={() => sheetRef.current.snapTo(0)}>
+        //             <View style={style.menus}>
+        //                 <View style={{alignItems: 'center', padding: 5}}>
+        //                     <Image source={menuKit.image} style={{height: 40, width: 40}}/>
+        //                 </View>
+        //                 <View style={{alignItems: 'center', marginHorizontal: 10, textAlign: 'center'}}>
+        //                     <Text style={{fontSize: 10, textAlign: 'center'}}>{menuKit.name}</Text>
+        //                 </View>
+        //             </View>
+        //         </TouchableHighlight>
+        //     );
+        // } else {
             return (
                 <TouchableHighlight
                     underlayColor={COLORS.white}
@@ -87,7 +89,7 @@ const HomeScreen = ({navigation}) => {
                     </View>
                 </TouchableHighlight>
             );
-        }
+        // }
     };
 
     const ListCategoriesMenuMore = ({menuKit}) => {
@@ -212,7 +214,7 @@ const HomeScreen = ({navigation}) => {
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     numColumns={4}
-                    data={menus}
+                    data={menusMore}
                     renderItem={({item}) => <ListCategoriesMenu menuKit={item}/>}
                     listKey={(item, index) => index.toString()}
 
@@ -262,12 +264,12 @@ const HomeScreen = ({navigation}) => {
                 // data={data}
                 ListHeaderComponent={Header}
                 ListFooterComponent={Footer}/>
-            <BottomSheet
-                ref={sheetRef}
-                snapPoints={[bottomSheetHeight, 300, 0]}
-                borderRadius={10}
-                renderContent={renderContent}
-            />
+            {/*<BottomSheet*/}
+            {/*    ref={sheetRef}*/}
+            {/*    snapPoints={[bottomSheetHeight, 300, 0]}*/}
+            {/*    borderRadius={10}*/}
+            {/*    renderContent={renderContent}*/}
+            {/*/>*/}
 
         </SafeAreaView>
     );

@@ -5458,6 +5458,11 @@ react-native-maps@0.27.1:
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.27.1.tgz#2f10cd417bb2fd938c9e015b1c9b6d9b1a44b97f"
   integrity sha512-HygBkZBecTnIVRYrSiLRAvu4OmXOYso/A7c6Cy73HkOh9CgGV8Ap5eBea24tvmFGptjj5Hg8AJ94/YbmWK1Okw==
 
+react-native-pager-view@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.1.2.tgz#a6957afc81f5729cbb884fe963df3482e2f46877"
+  integrity sha512-UvPvjtuIkiI9Ti8NoMH+fiFj0ehfFv4WkNUGM46dOJfOxmE6Z/hoyJjymOHU//iLkQSMO+YNherZs0HcijdA2A==
+
 react-native-paper@^4.7.2:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.7.2.tgz#a40d1da87af5b030d45b525313cd703d490876ff"
@@ -5498,6 +5503,11 @@ react-native-skeleton-placeholder@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-native-skeleton-placeholder/-/react-native-skeleton-placeholder-3.0.4.tgz#13d25e8742a6261e772f23afaa18b864225da15b"
   integrity sha512-NCIA6+whQF+jFdhLT2YdIkhNRsu4mGMHTRQP+kwcq5LVvB/UCDqUfrXlPjkFf9cvdx+Q+ca4JqlZvAp0Yv0sug==
+
+react-native-tab-view@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.0.0.tgz#ea01e0956a4a96dd87d3cfdd8ee39f9aad319943"
+  integrity sha512-uuvLV3KWVXx3ZEESBYALo4w8fuHFUrrg2K2OCtfHv+xOmTWjjRzm+opi0PMXSLOxl7+uMeJvJYEzR13B6pXpkA==
 
 react-native-vector-icons@^7.1.0:
   version "7.1.0"

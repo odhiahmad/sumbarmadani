@@ -21,6 +21,19 @@ import PariwisataScreen from "../screens/pariwisata/PariwisataScreen";
 import ResponsScreen from "../screens/respons/ResponsScreen";
 import SiagaScreen from "../screens/siaga/SiagaScreen";
 import CovidScreen from "../screens/covid/CovidScreen";
+import IkanScreen from "../screens/ikan/IkanScreen";
+
+import KebakaranScreen from "../screens/bencana/kebakaran/KebakaranScreen";
+import LaluLintasScreen from "../screens/bencana/lalulintas/LaluLintasScreen";
+import BanjirScreen from "../screens/bencana/banjir/BanjirScreen";
+import TanahLongsorScreen from "../screens/bencana/tanahLongsor/TanahLongsorScreen";
+
+import CoronaBerita from "../screens/lawanCorona/CoronaBerita";
+import CoronaGejala from "../screens/lawanCorona/CoronaGejala";
+import CoronaJumlahKasus from "../screens/lawanCorona/CoronaJumlahKasus";
+import CoronaNomor from "../screens/lawanCorona/CoronaNomor";
+import CoronaPetunjukTeknis from "../screens/lawanCorona/CoronaPetunjukTeknis";
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -29,6 +42,58 @@ const StackHome = () => (
     <Stack.Navigator>
 
         <Stack.Screen name="HomeScreen" component={HomeScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+
+        <Stack.Screen name="CoronaBerita" component={CoronaBerita}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="CoronaGejala" component={CoronaGejala}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="CoronaJumlahKasus" component={CoronaJumlahKasus}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="CoronaNomor" component={CoronaNomor}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="CoronaPetunjukTeknis" component={CoronaPetunjukTeknis}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+
+        <Stack.Screen name="IkanScreen" component={IkanScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="KebakaranScreen" component={KebakaranScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="LaluLintasScreen" component={LaluLintasScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="BanjirScreen" component={BanjirScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="TanahLongsorScreen" component={TanahLongsorScreen}
                       options={{
                           headerShown: false,
                       }}

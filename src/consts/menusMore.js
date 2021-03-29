@@ -20,13 +20,13 @@ const menusMore = [
         url: 'BencanaScreen',
         image: require('../assets/iconmenu/bencana.png')
     },
-    {
-        id: '4',
-        name: 'Sumbar Pangan',
-        icon: 'place',
-        url:'PanganScreen',
-        image: require('../assets/iconmenu/pangan.png')
-    },
+    // {
+    //     id: '4',
+    //     name: 'Sumbar Pangan',
+    //     icon: 'place',
+    //     url:'PanganScreen',
+    //     image: require('../assets/iconmenu/pangan.png')
+    // },
     {
         id: '5',
         name: 'Sumbar Pariwisata',
@@ -45,7 +45,7 @@ const menusMore = [
         id: '7',
         name: 'Sumbar Covid',
         icon: 'place',
-        url:'CovidScreen',
+        url:'LawanCoronaScreen',
         image: require('../assets/iconmenu/berita.png')
     },
     {
@@ -55,20 +55,20 @@ const menusMore = [
         url:'IkanScreen',
         image: require('../assets/iconmenu/hargaikan.png')
     },
-    {
-        id: '9',
-        name: 'Sumbar Gempa',
-        icon: 'place',
-        url:'GempaScreen',
-        image: require('../assets/iconmenu/berita.png')
-    },
-    {
-        id: '10',
-        name: 'Sumbar Covid',
-        icon: 'place',
-        url:'covid',
-        image: require('../assets/iconmenu/berita.png')
-    },
+    // {
+    //     id: '9',
+    //     name: 'Sumbar Gempa',
+    //     icon: 'place',
+    //     url:'GempaScreen',
+    //     image: require('../assets/iconmenu/berita.png')
+    // },
+    // {
+    //     id: '10',
+    //     name: 'Sumbar Covid',
+    //     icon: 'place',
+    //     url:'covid',
+    //     image: require('../assets/iconmenu/berita.png')
+    // },
 ];
 
 export default menusMore;

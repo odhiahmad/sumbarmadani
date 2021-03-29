@@ -22,7 +22,6 @@ const LoaderModal = props => {
             onRequestClose={() => {console.log('close modal')}}>
             <View style={styles.modalBackground}>
                 <View style={styles.activityIndicatorWrapper}>
-                    <Text style={{color:COLORS.primary,textAlign:'center'}}>Sumbar Madani</Text>
                     <ActivityIndicator
                         size="small"
                         color={COLORS.primary}

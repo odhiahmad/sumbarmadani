@@ -22,10 +22,10 @@ const menus = [
     },
     {
         id: '4',
-        name: 'Sumbar Pangan',
+        name: 'Sumbar Ikan',
         icon: 'place',
-        url:'PanganScreen',
-        image: require('../assets/iconmenu/pangan.png')
+        url:'IkanScreen',
+        image: require('../assets/iconmenu/hargaikan.png')
     },
     {
         id: '5',
@@ -45,7 +45,7 @@ const menus = [
         id: '7',
         name: 'Sumbar Covid',
         icon: 'place',
-        url:'CovidScreen',
+        url:'LawanCoronaScreen',
         image: require('../assets/iconmenu/berita.png')
     },
     {
