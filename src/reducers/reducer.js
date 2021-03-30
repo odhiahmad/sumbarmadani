@@ -21,7 +21,7 @@ export const reducer = (prevState, action) => {
                 isSignedIn: true,
                 isSignedUp: true,
                 userToken: action.token,
-                id_kab:action.id_kab,
+
 
 
             };
@@ -40,7 +40,6 @@ export const reducer = (prevState, action) => {
                 isSignedIn: true,
                 isSignedUp: true,
                 userToken: action.token,
-                id_kab:action.id_kab
             };
         case 'SIGN_OUT':
             return {

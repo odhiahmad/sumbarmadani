@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React,{useReducer,useEffect,useMemo} from 'react';
+import React, {useReducer, useEffect, useMemo} from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -38,42 +38,35 @@ function Auth({}) {
 
 
 const createHomeStack = () => {
-
-
     return (
-        <NavigationContainer>
-            <StatusBar backgroundColor={COLORS.white} barStyle="dark-content"/>
+        // <NavigationContainer>
+        //     <StatusBar backgroundColor={COLORS.white} barStyle="dark-content"/>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Navigator>
-                    <Stack.Screen name="Home" component={BottomNavigator}/>
-                    <Stack.Screen name="DetailsScreen" component={DetailsScreen}/>
-                    <Stack.Screen name="DetailsNewsScreen" component={DetailsNewsScreen}/>
-
-
-                    <Stack.Screen name="KebakaranTambahScreen" component={KebakaranTambahScreen}/>
-                    <Stack.Screen name="LalulintasTambahScreen" component={LalulintasTambahScreen}/>
-                    <Stack.Screen name="BanjirTambahScreen" component={BanjirTambahScreen}/>
-                    <Stack.Screen name="TanahLongsorTambahScreen" component={TanahLongsorTambahScreen}/>
-                </Stack.Navigator>
-
+                <Stack.Screen name="Home" component={BottomNavigator}/>
+                <Stack.Screen name="DetailsScreen" component={DetailsScreen}/>
+                <Stack.Screen name="DetailsNewsScreen" component={DetailsNewsScreen}/>
+                <Stack.Screen name="KebakaranTambahScreen" component={KebakaranTambahScreen}/>
+                <Stack.Screen name="LalulintasTambahScreen" component={LalulintasTambahScreen}/>
+                <Stack.Screen name="BanjirTambahScreen" component={BanjirTambahScreen}/>
+                <Stack.Screen name="TanahLongsorTambahScreen" component={TanahLongsorTambahScreen}/>
             </Stack.Navigator>
-        </NavigationContainer>
-
-    );
+        // </Stack.Navigator>
+        /*</NavigationContainer>*/
+    )
+        ;
 };
 
 
 const App = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-
     useEffect(() => {
         // Fetch the token from storage then navigate to our appropriate place
         const bootstrapAsync = async () => {
             let userToken;
-
             try {
                 userToken = await AsyncStorage.getItem('token');
+                console.log(userToken)
             } catch (e) {
                 // Restoring token failed
             }
@@ -90,12 +83,13 @@ const App = () => {
     // In a production app, we need to send some data (usually username, password) to server and get a token
     // We will also need to handle errors if sign in failed
     // After getting token, we need to persist the token using `AsyncStorage`
+
     const authContextValue = useMemo(
         () => ({
             signIn: async (data) => {
                 if (data.masuk === true) {
-                    dispatch({type: 'SIGN_IN', token: data.token, id_kab: data.id_kab});
-
+                    dispatch({type: 'SIGN_IN', token: data.token});
+                    await AsyncStorage.setItem('token',data.token);
                 } else {
                     dispatch({type: 'TO_SIGNIN_PAGE'});
                 }

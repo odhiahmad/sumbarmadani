@@ -89,53 +89,57 @@ const Login = ({}) => {
     }
 
     const loginHandle = (userName, password) => {
-        setData({
-            ...data,
-            loading: true
-        });
-        return fetch(apiLogin, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: userName,
-                password: password
-            })
-        })
-            .then((response) => response.json())
-            .then((json) => {
+        const masuk = true;
+        const token = 'aQQEQWEDDasdas423r2dsFsdfssfsdfsfsdfsdfqsfsf534534ddfgdfgdfgfd';
+        signIn({masuk, token})
 
-                if (json.status === true) {
-                    let masuk = json.status
-                    let token = json.token
-                    let id_kab = json.id_kab
-                    console.log(masuk)
-                    signIn({masuk, token, id_kab})
-                    AsyncStorage.setItem('token', json.token)
-                    AsyncStorage.setItem('id_kab', json.id_kab)
-                    setData({
-                        ...data,
-                        loading: false
-                    });
-
-                } else {
-                    alert(json.message)
-                    setData({
-                        ...data,
-                        loading: false
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-                alert('Anda sedang tidak terhubung ke jaringan internet')
-                setData({
-                    ...data,
-                    loading: false
-                });
-            });
+        // setData({
+        //     ...data,
+        //     loading: true
+        // });
+        // return fetch(apiLogin, {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         username: userName,
+        //         password: password
+        //     })
+        // })
+        //     .then((response) => response.json())
+        //     .then((json) => {
+        //
+        //         if (json.status === true) {
+        //             let masuk = json.status
+        //             let token = json.token
+        //             let id_kab = json.id_kab
+        //             console.log(masuk)
+        //
+        //             AsyncStorage.setItem('token', json.token)
+        //             AsyncStorage.setItem('id_kab', json.id_kab)
+        //             setData({
+        //                 ...data,
+        //                 loading: false
+        //             });
+        //
+        //         } else {
+        //             alert(json.message)
+        //             setData({
+        //                 ...data,
+        //                 loading: false
+        //             });
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //         alert('Anda sedang tidak terhubung ke jaringan internet')
+        //         setData({
+        //             ...data,
+        //             loading: false
+        //         });
+        //     });
     }
 
 
