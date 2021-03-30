@@ -4,3 +4,5 @@ export const apinomorPenting = 'https://sumbarprov.go.id/json/json_info_no_penti
 export const apinomorPentingDetail = 'https://sumbarprov.go.id/json/json_info_no_penting_detail.php?id=';
 export const apicorona = 'https://corona.sumbarprov.go.id/api/';
 export const apiPariwisata = 'http://103.143.71.146/sumbartv_api/main/'
+export const apiBencanaKebakaran = "http://testing.sumbarprov.go.id/sipendekar/api/pelaporan/";
+export const apiLogin = 'https://espj.sumbarprov.go.id/sumbarapis/spj/auth/signin'

@@ -36,7 +36,8 @@ import CoronaNomor from "../screens/lawanCorona/CoronaNomor";
 import CoronaPetunjukTeknis from "../screens/lawanCorona/CoronaPetunjukTeknis";
 import DetailPariwisataScreen from "../screens/pariwisata/DetailPariwisataScreen";
 import KebakaranKamerascreen from "../screens/bencana/kebakaran/KebakaranKameraScreen";
-
+import BanjirKameraScreen from "../screens/bencana/banjir/BanjirKameraScreen";
+import BanjirTambahScreen from "../screens/bencana/banjir/BanjirTambahScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -45,6 +46,16 @@ const StackHome = () => (
     <Stack.Navigator>
 
         <Stack.Screen name="HomeScreen" component={HomeScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="BanjirKameraScreen" component={BanjirKameraScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="BanjirTambahScreen" component={BanjirTambahScreen}
                       options={{
                           headerShown: false,
                       }}

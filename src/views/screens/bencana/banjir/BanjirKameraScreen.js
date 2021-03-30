@@ -9,7 +9,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 
 
-const KebakaranKamerascreen = ({navigation}) => {
+const BanjirKameraScreen = ({navigation}) => {
     const cameraRef = useRef();
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
@@ -55,7 +55,7 @@ const KebakaranKamerascreen = ({navigation}) => {
 
             if (source) {
                 setLoading(false)
-                navigation.navigate('KebakaranTambahScreen',{source})
+                navigation.navigate('BanjirTambahScreen',{source})
                 // await cameraRef.current.pausePreview();
                 //                 // setPreviewVisible(true);
                 //                 // setCapturedImage(source)
@@ -209,4 +209,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default KebakaranKamerascreen;
+export default BanjirKameraScreen;

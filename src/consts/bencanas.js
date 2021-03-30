@@ -16,25 +16,25 @@ const bencanas = [
     },
     {
         id: '3',
-        name: 'Tanah Longsor',
+        name: 'Tanah Longsor / Terban',
         icon: 'broken-image',
         url: 'TanahLongsorScreen',
         deskripsi:'Bencana Tanah Longsor Yang Terjadi di Wilayah Sumbar',
     },
-    {
-        id: '4',
-        name: 'Lalu Lintas',
-        icon: 'traffic',
-        url:'LaluLintasScreen',
-        deskripsi:'Kecelakaan Lalu Lintas Yang Terjadi di Wilayah Sumbar',
-    },
-    {
-        id: '5',
-        name: 'Terban',
-        icon: 'broken-image',
-        url: 'TanahLongsorScreen',
-        deskripsi:'Bencana Tanah Longsor Yang Terjadi di Wilayah Sumbar',
-    },
+    // {
+    //     id: '4',
+    //     name: 'Lalu Lintas',
+    //     icon: 'traffic',
+    //     url:'LaluLintasScreen',
+    //     deskripsi:'Kecelakaan Lalu Lintas Yang Terjadi di Wilayah Sumbar',
+    // },
+    // {
+    //     id: '5',
+    //     name: 'Terban',
+    //     icon: 'broken-image',
+    //     url: 'TanahLongsorScreen',
+    //     deskripsi:'Bencana Tanah Longsor Yang Terjadi di Wilayah Sumbar',
+    // },
 ];
 
 export default bencanas;
