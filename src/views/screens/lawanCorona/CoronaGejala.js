@@ -87,7 +87,6 @@ const CoronaGejala = ({navigation}) => {
                     <Image source={{uri:data.data.gambar}} style={{height: '100%', width: '100%'}} />
                 </View>
             </ScrollView>
-
         </SafeAreaView>
     );
 };

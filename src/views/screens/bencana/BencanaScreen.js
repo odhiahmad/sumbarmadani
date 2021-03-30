@@ -57,7 +57,7 @@ const style = StyleSheet.create({
     },
     cartCard: {
         height: 100,
-        elevation: 15,
+        elevation: 2,
         borderRadius: 10,
         backgroundColor: COLORS.white,
         marginVertical: 10,

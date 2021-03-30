@@ -118,14 +118,14 @@ const HomeScreen = ({navigation}) => {
             <TouchableHighlight
                 underlayColor={COLORS.white}
                 activeOpacity={0.9}
-                onPress={() => navigation.navigate('DetailsScreen', covid)}>
+                onPress={() => navigation.navigate(covid.url)}>
                 <View style={style.card}>
                     <View style={{alignItems: 'center', padding: 10}}>
                         <Icon name={covid.icon} size={120} color={COLORS.primary}></Icon>
                     </View>
-                    <View style={{marginHorizontal: 20}}>
-                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>{covid.name}</Text>
-                        <Text style={{fontSize: 14,textAlign:'left', color: COLORS.grey, marginTop: 2}}>
+                    <View style={{marginHorizontal: 15}}>
+                        <Text style={{fontSize: 16, fontWeight: 'bold'}}>{covid.name}</Text>
+                        <Text style={{fontSize: 12,textAlign:'left', color: COLORS.grey, marginTop: 2}}>
                             {covid.deskripsi}
                         </Text>
                     </View>
@@ -352,7 +352,7 @@ const style = StyleSheet.create({
         marginBottom: 20,
         marginTop: 10,
         borderRadius: 15,
-        elevation: 13,
+        elevation: 2,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,

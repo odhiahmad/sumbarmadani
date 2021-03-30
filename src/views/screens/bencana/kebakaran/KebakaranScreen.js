@@ -16,7 +16,7 @@ const bottomSheetHeight = height / 1.3;
 const KebakaranScreen = ({navigation}) => {
 
     const openTab = () => {
-        navigation.navigate('KebakaranTambahScreen')
+        navigation.navigate('KebakaranKamerascreen')
     }
     const renderContent = () => (
         <View
