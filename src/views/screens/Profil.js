@@ -1,11 +1,60 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import COLORS from '../../consts/colors';
 import {Button} from "react-native-paper";
 import {AuthContext} from "../../utils/authContext";
+import {apiProfil} from "../../consts/api";
 
 const Profil = ({navigation}) => {
+    const [data, setData] = React.useState({
+        nama_asn: '',
+        username: '',
+        jabatan: '',
+        isError: false,
+        refreshing: false,
+        isLoading: true,
+        average: '',
+        average_color: '',
+        jumlah_telat: '',
+        jam_telat: '',
+        average_percent: '',
+        pulang_cepat: '',
+        durasi: [],
+
+    });
+
+    useEffect(() => {
+        feedData();
+    }, []);
+
+    const _onRefresh = () => {
+        setData({
+            ...data,
+            refreshing: true,
+            isError: false,
+        });
+
+        feedData().then(() => {
+            setData({
+                ...data,
+                refreshing: false,
+            });
+        });
+    }
+    const feedData = async () => {
+        const token = await AsyncStorage.getItem('username');
+        const nama_asn = await AsyncStorage.getItem('nama_asn');
+        const jabatan = await AsyncStorage.getItem('jabatan');
+
+        setData({
+            ...data,
+            nama_asn:nama_asn,
+            jabatan:jabatan
+        })
+    }
+
     const {signOut} = useContext(AuthContext);
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
@@ -20,14 +69,13 @@ const Profil = ({navigation}) => {
                 <View style={style.cartProfil}>
                     <Icon name="account-circle" color={COLORS.primary} size={120}/>
 
-                    <Text style={style.userName}></Text>
+                    <Text style={style.userName}>{data.nama_asn}</Text>
                     <Text style={style.aboutUser}>
-                        No details added
+                        {data.jabatan}
                     </Text>
-                </View>
-                <View style={style.cartProfil}>
-                    <Button icon="camera" onPress={()=>signOut()} mode="contained" style={{backgroundColor:COLORS.primary}} >
-                       Logout
+                    <Button icon="camera" onPress={() => signOut()} mode="contained"
+                            style={{backgroundColor: COLORS.primary}}>
+                        Logout
                     </Button>
                 </View>
             </ScrollView>
@@ -60,8 +108,8 @@ const style = StyleSheet.create({
         marginBottom: 10,
     },
     cartProfil: {
-        width:'98%',
-        height: 220,
+        width: '98%',
+        height: 420,
         elevation: 2,
         borderRadius: 10,
         backgroundColor: COLORS.white,
@@ -70,11 +118,11 @@ const style = StyleSheet.create({
         paddingHorizontal: 10,
         // flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
 
     cartProfilFooter: {
-        width:'98%',
+        width: '98%',
         height: 180,
         elevation: 2,
         borderRadius: 10,

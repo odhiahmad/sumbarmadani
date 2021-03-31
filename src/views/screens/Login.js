@@ -124,6 +124,7 @@ const Login = ({}) => {
                     AsyncStorage.setItem('nip', json.result[0].nip);
                     AsyncStorage.setItem('id_eselon', json.result[0].id_eselon);
                     AsyncStorage.setItem('eselon', json.result[0].eselon);
+                    AsyncStorage.setItem('group', json.result[0].group.toString());
                     AsyncStorage.setItem('pangkat', json.result[0].pangkat);
                     AsyncStorage.setItem('jenjang', json.result[0].jenjang);
 

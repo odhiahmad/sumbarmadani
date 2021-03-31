@@ -70,12 +70,21 @@ const CoronaGejala = ({navigation}) => {
                             alignItems: 'center',
                         }}>
                         <Text
-                            style={{fontSize: 25, fontWeight: 'bold', color: COLORS.white}}>
-                            {data.data.judul}
+                            style={{fontSize: 22, fontWeight: 'bold', color: COLORS.white}}>
+                            {data.data.judul_info}
                         </Text>
                     </View>
                     <Text style={style.detailsText}>
-                        {data.data.keterangan}
+                        {data.data.how}
+                    </Text>
+                    <Text style={style.detailsText}>
+                         {data.data.how_ket}
+                    </Text>
+                    <Text style={style.detailsText}>
+                        {data.data.what}
+                    </Text>
+                    <Text style={style.detailsText}>
+                        {data.data.what_ket}
                     </Text>
                 </View>
                 <View
@@ -84,7 +93,7 @@ const CoronaGejala = ({navigation}) => {
                         alignItems: 'center',
                         height: 560,
                     }}>
-                    <Image source={{uri:data.data.gambar}} style={{height: '100%', width: '100%'}} />
+                    <Image source={{uri:data.data.picture}} style={{height: '100%', width: '100%'}} />
                 </View>
             </ScrollView>
         </SafeAreaView>

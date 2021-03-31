@@ -63,7 +63,7 @@ const CoronaPetunjukTeknis = ({navigation}) => {
                 activeOpacity={0.9}
             >
                 <View style={style.cartCard}>
-                    <Image source={{uri:item.result[0].gambar}} style={{height: '67%', width: '22%'}} />
+                    <Image source={{uri:item.picture}} style={{height: '67%', width: '22%'}} />
                     <View
                         style={{
                             height: 120,
@@ -71,9 +71,9 @@ const CoronaPetunjukTeknis = ({navigation}) => {
                             paddingVertical: 10,
                             flex: 1,
                         }}>
-                        <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.Kategori}</Text>
+                        <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.nm_category}</Text>
                         <Text style={{fontSize: 15, color: COLORS.grey}}>
-                            {item.result[0].judul}
+                            {item.judul_info}
                         </Text>
                     </View>
                 </View>

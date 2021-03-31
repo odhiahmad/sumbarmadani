@@ -8,3 +8,4 @@ export const apiBencanaKebakaran = "http://testing.sumbarprov.go.id/sipendekar/a
 export const apiBencanaTerban = "http://sisorban.pupr.sumbarprov.go.id/api/";
 export const apiBencanaBanjir = "https://sikadra.sumbarprov.go.id/sumbarapis/api/madani/";
 export const apiLogin = 'https://espj.sumbarprov.go.id/sumbarapis/spj/auth/signin'
+export const apiProfil = 'http://abon1.sumbarprov.go.id/api/';
