@@ -38,6 +38,9 @@ import DetailPariwisataScreen from "../screens/pariwisata/DetailPariwisataScreen
 import KebakaranKamerascreen from "../screens/bencana/kebakaran/KebakaranKameraScreen";
 import BanjirKameraScreen from "../screens/bencana/banjir/BanjirKameraScreen";
 import BanjirTambahScreen from "../screens/bencana/banjir/BanjirTambahScreen";
+import TanahLongsorTambahScreen from "../screens/bencana/tanahLongsor/TanahLongsorTambahScreen";
+
+import TanahLongsorKameraScreen from "../screens/bencana/tanahLongsor/TanahLongsorKameraScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -46,6 +49,17 @@ const StackHome = () => (
     <Stack.Navigator>
 
         <Stack.Screen name="HomeScreen" component={HomeScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="TanahLongsorKameraScreen" component={TanahLongsorKameraScreen}
+                      options={{
+                          headerShown: false,
+                      }}
+        />
+
+        <Stack.Screen name="TanahLongsorTambahScreen" component={TanahLongsorTambahScreen}
                       options={{
                           headerShown: false,
                       }}

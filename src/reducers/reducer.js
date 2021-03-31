@@ -21,6 +21,7 @@ export const reducer = (prevState, action) => {
                 isSignedIn: true,
                 isSignedUp: true,
                 userToken: action.token,
+                pegawai:action.pegawai
 
 
 
@@ -40,6 +41,7 @@ export const reducer = (prevState, action) => {
                 isSignedIn: true,
                 isSignedUp: true,
                 userToken: action.token,
+                pegawai:action.pegawai
             };
         case 'SIGN_OUT':
             return {
@@ -61,4 +63,5 @@ export const initialState = {
     isSignedIn: false,
     userToken: null,
     id_kab:null,
+    pegawai:[],
 };

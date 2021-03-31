@@ -1,16 +1,17 @@
-import React , {useEffect, useState}from 'react';
+import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Dimensions, RefreshControl, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../../../consts/colors';
-import {PrimaryButton} from '../../../components/Button';
 import BottomSheet from "reanimated-bottom-sheet";
-import MapView from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
 import {Button} from "react-native-paper";
 import {FlatList, TouchableHighlight} from "react-native-gesture-handler";
 import axios from "axios";
-import {apiBerita} from "../../../../consts/api";
+import {apiBencanaBanjir, apiBencanaTerban} from "../../../../consts/api";
 import moment from "moment";
-
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import LoaderModal from "../../../components/LoaderModal";
 
 const {width, height} = Dimensions.get('screen');
 
@@ -24,9 +25,13 @@ const BanjirScreen = ({navigation}) => {
     const [data, setData] = useState({
         data: [],
         id: [],
-        cocok: 0,
         loading: false,
         isRefreshing: false,
+        mapRegion: null,
+        hasLocationPermissions: false,
+        locationResult: null,
+
+
 
     });
 
@@ -54,58 +59,52 @@ const BanjirScreen = ({navigation}) => {
         );
     };
 
-    const onRefresh = async () => {
+    const _getLocationAsync = async () => {
+        let {status} = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+            setData({
+                ...data,
+                locationResult: 'Permission to access location was denied',
+            });
+        } else {
+            setData({
+                ...data, hasLocationPermissions: true
+            });
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setData({
+            ...data, locationResult: JSON.stringify(location)
+        });
+
+        // Center the map on the location we just fetched.
         setData({
             ...data,
-            loading: true,
-            isRefreshing: true,
-            page: 0
-        })
+            mapRegion: {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.1922,
+                longitudeDelta: 0.1421
+            }
+        });
+    };
 
-        await axios.get(apiBerita + "json_list_newsUpdate_pagging.php?id_content=0")
-            .then(response => {
-
-                setTimeout(() => {
-                    setData({
-                        ...data,
-                        loading: false,
-                        data: response.data.list_berita,
-                        isRefreshing: false
-                    })
-                }, 2000)
-            })
-            .catch(error => {
-                setData({
-                    ...data,
-                    loading: false,
-                    isRefreshing: false
-                })
-                console.log(error);
-            });
-    }
 
     const getIndex = async () => {
-        console.log('Sebelum : ' + data.cocok)
         setData({
             ...data,
             loading: true,
         })
 
-        await axios.get(apiBerita + "json_list_newsUpdate_pagging.php?id_content=" + data.cocok)
+        await axios.get(apiBencanaBanjir + 'informasi_bencana')
             .then(response => {
-                // console.log('getting data from axios', response.data.list_berita);
                 setTimeout(() => {
-                    let listData = data.data;
-                    // console.log(response.data.list_berita)
+                    console.log(response.data.result)
                     setData({
                         ...data,
                         loading: false,
-                        data: listData.concat(response.data.list_berita),
-                        cocok: data.cocok + 1
+                        data: response.data.result,
                     })
-
-                    // setPage(page+1)
-                    console.log('Sesudah :' + data.cocok)
                 }, 2000)
             })
             .catch(error => {
@@ -116,12 +115,12 @@ const BanjirScreen = ({navigation}) => {
                 console.log(error);
             });
     }
-
 
 
     useEffect(() => {
         // Fetch the token from storage then navigate to our appropriate place
         getIndex()
+        _getLocationAsync()
 
     }, []);
 
@@ -140,12 +139,17 @@ const BanjirScreen = ({navigation}) => {
                             paddingVertical: 20,
                             flex: 1,
                         }}>
-                        <Text style={{fontSize: 13}}>{item.title_content}</Text>
-                        <Text style={{fontSize: 11, color: 'gray'}}>Oleh {item.nama_asn}</Text>
-                        <Text style={{
-                            fontSize: 11,
-                            color: 'gray'
-                        }}>{moment(item.created_at).startOf('day').fromNow()}</Text>
+                        <Text style={{fontSize: 13}}>{item.nm_kabkota}</Text>
+                        <Text style={{fontSize: 11, color: 'gray', marginTop: 5}}>{item.alamat_bencana}</Text>
+
+                        {/*<Text style={{*/}
+                        {/*    marginTop: 5,*/}
+                        {/*    fontSize: 11,*/}
+                        {/*    color: 'gray'*/}
+                        {/*}}>*/}
+                        {/*    /!*<Icon name='date-range' size={11}*!/*/}
+                        {/*    /!*      color={COLORS.primary}/>*!/*/}
+                        {/*    {moment(item.created_date).startOf('day').fromNow()}</Text>*/}
                     </View>
                     <View style={{marginRight: 20, alignItems: 'center'}}>
                         <Text style={{
@@ -161,7 +165,7 @@ const BanjirScreen = ({navigation}) => {
     };
 
     const openTab = () => {
-        navigation.navigate('BanjirKameraScreen')
+        navigation.navigate('BanjirTambahScreen')
     }
     const renderContent = () => (
         <View
@@ -171,11 +175,9 @@ const BanjirScreen = ({navigation}) => {
                 height: bottomSheetHeight,
             }}
         >
-            <View style={{alignItems: 'center'}}>
-                <Icon name='menu' size={40}
-                      color={COLORS.primary}/>
-                <Button icon="camera" mode="contained"  onPress={openTab} style={{backgroundColor:COLORS.primary}} >
-                    Laporkan Kebakaran
+            <View style={{alignItems: 'center',marginTop:5}}>
+                <Button icon="camera" mode="contained" onPress={openTab} style={{backgroundColor: COLORS.primary}}>
+                    Laporkan
                 </Button>
 
             </View>
@@ -183,20 +185,17 @@ const BanjirScreen = ({navigation}) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={data.isRefreshing}
-                        onRefresh={onRefresh.bind(this)}
+                        onRefresh={getIndex}
                     />
                 }
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{paddingBottom: 80}}
                 data={data.data}
                 renderItem={({item}) => <CartCardNews item={item}/>}
-                ListFooterComponentStyle={{paddingHorizontal: 20, marginTop: 20}}
-                ListFooterComponent={renderFooter.bind(this)}
                 listKey={(item, index) => index.toString()}
                 keyExtractor={(item, index) => index.toString()}
-                onEndReachedThreshold={0.4}
-                onEndReached={handleLoadMore}
-
+                // onEndReachedThreshold={0.4}
+                // onEndReached={handleLoadMore}
             />
         </View>
     );
@@ -205,11 +204,29 @@ const BanjirScreen = ({navigation}) => {
 
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
+            <LoaderModal
+                loading={data.loading}/>
             <View style={style.header}>
                 <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Banjir</Text>
             </View>
-            <MapView style={style.map}/>
+            {data.data.length === 0 ? <View></View> :
+                <MapView
+                    // onLayout={onMapReady}
+                    style={style.map}
+                    region={data.mapRegion}
+                >
+                    {data.data.map((marker, index) => (
+                        <Marker
+                            key={index}
+                            coordinate={{latitude: parseFloat(marker.latitude), longitude: parseFloat(marker.longitude)}}
+                            title={marker.nm_kabkota}
+                            description={marker.alamat_bencana}
+                        />
+                    ))}
+                </MapView>
+            }
+
             <BottomSheet
                 // enabledInnerScrolling={true}
                 // enabledBottomInitialAnimation={true}

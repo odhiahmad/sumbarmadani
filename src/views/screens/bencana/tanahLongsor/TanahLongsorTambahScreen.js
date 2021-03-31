@@ -3,15 +3,14 @@ import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../../../consts/colors';
-import {Button, RadioButton, TextInput} from "react-native-paper";
+import {TextInput} from "react-native-paper";
 import {PrimaryButton} from "../../../components/Button";
 import * as Location from 'expo-location';
 import LoaderModal from "../../../components/LoaderModal";
-import {apiBencanaKebakaran} from "../../../../consts/api";
-import * as ImagePicker from 'expo-image-picker';
+import {apiBencanaTerban} from "../../../../consts/api";
 
-const BanjirTambahScreen = ({navigation}) => {
-
+const TanahLongsorTambahScreen = ({navigation, route}) => {
+    const item = route.params;
 
     const [data, setData] = useState({
         data: [],
@@ -19,18 +18,15 @@ const BanjirTambahScreen = ({navigation}) => {
 
         nama: '',
         no_hp: '',
-
-        jenis_bencana: '',
-        nm_sungai: '',
-
-        kabupaten: '',
-        kelurahan: '',
-        alamat_bencana: '',
-        penyebab_bencana: '',
-        deskripsi: '',
-
-
+        judul: '',
+        jenis: '',
+        tipe: 'F',
+        sumber: 'Langsung di TKP',
+        create_ip: 'Android',
+        id_status: '2',
+        penanganan: '0',
         pesan: '',
+        alamat: '',
 
         provinsi: '',
         kota: '',
@@ -38,12 +34,11 @@ const BanjirTambahScreen = ({navigation}) => {
         lat: 0,
         long: 0,
         lokasi: '',
-        gambar: '',
-        file_ext: '',
-        uri: '',
-    });
+        gambar: item.source.base64,
+        file_ext: '.jpeg',
 
-    const [checked, setChecked] = React.useState('first');
+
+    });
 
     const getLocation = async () => {
         // setData({
@@ -68,7 +63,8 @@ const BanjirTambahScreen = ({navigation}) => {
                             kecamatan: res[0].district,
                             lat: pos.coords.latitude,
                             long: pos.coords.longitude,
-                            lokasi: res[0].street
+                            lokasi: res[0].street,
+                            alamat: res[0].region + ', ' + res[0].subregion + ', ' + res[0].district + ', ' + res[0].street
                         });
 
 
@@ -85,87 +81,68 @@ const BanjirTambahScreen = ({navigation}) => {
 
     }
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-            base64: true
-        });
-
-
-        if (!result.cancelled) {
-
-            let uri = result.uri;
-            let fileExtension = uri.substr(uri.lastIndexOf('.') + 1);
-            setData({
-                ...data,
-                gambar: result.base64,
-                file_ext: fileExtension,
-                uri: result.uri
-            })
-
-        }
-    };
-
     const _onSubmit = () => {
 
 
+        console.log({
+            image: data.gambar,
+            jenis: 'L',
+            nm_jenis: 'Longsor',
+            tipe: 'F',
+            judul: data.judul,
+            latitude: data.lat,
+            longitude: data.long,
+            telp: data.no_hp,
+            alamat: data.alamat,
+            keterangan: data.pesan,
+            sumber: 'Langsung di TKP',
+            create_by: '',
+            create_ip: 'Android',
+            id_status: '2',
+            penanganan: '0',
+
+        })
         if (data.nama !== '' && data.no_hp !== '') {
             setData({
                 ...data,
                 loading: true,
             });
-            fetch(apiBencanaKebakaran + 'kebakaran', {
+            fetch(apiBencanaTerban + 'insertPengaduanLive', {
                 method: 'POST',
-                headers: {
-                    Accept: '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
+                // headers: {
+                //     Accept: '*/*',
+                //     'Content-Type': 'application/x-www-form-urlencoded',
+                // },
                 body: JSON.stringify({
-                    nama: data.nama,
-                    no_hp: data.no_hp,
-                    file: data.gambar,
-                    pesan: data.pesan,
-                    file_ext: data.file_ext,
-                    provinsi: data.provinsi,
-                    kabupaten: data.kota,
-                    kecamatan: data.kecamatan,
-                    lat: data.lat,
-                    lng: data.long,
-                    lokasi: data.lokasi
+                    image: data.gambar,
+                    jenis: 'L',
+                    nm_jenis: 'Longsor',
+                    tipe: 'F',
+                    judul: data.judul,
+                    latitude: data.lat,
+                    longitude: data.long,
+                    telp: data.no_hp,
+                    alamat: data.alamat,
+                    keterangan: data.pesan,
+                    sumber: 'Langsung di TKP',
+                    create_by: '',
+                    create_ip: 'Android',
+                    id_status: '2',
+                    penanganan: '0',
 
                 }),
             }).then((response) => response.json()).then((responseJson) => {
                 console.log(responseJson)
-                if (responseJson.status === true) {
-                    navigation.popToTop();
-                    Alert.alert(
-                        "Notifikasi",
-                        "Berhasil menginputkan data laporan",
-                        [
-                            {text: "OK", onPress: () => console.log("OK Pressed")}
-                        ],
-                        {cancelable: false}
-                    );
-                } else {
-                    console.log(responseJson)
-                    setData({
-                        ...data,
-                        loading: false,
 
-                    });
-                    Alert.alert(
-                        "Notifikasi",
-                        "Gagal",
-                        [
-                            {text: "OK"}
-                        ],
-                        {cancelable: false}
-                    );
-
-                }
+                navigation.popToTop();
+                Alert.alert(
+                    "Notifikasi",
+                    "Berhasil menginputkan data laporan",
+                    [
+                        {text: "OK", onPress: () => console.log("OK Pressed")}
+                    ],
+                    {cancelable: false}
+                );
 
 
             }).catch((error) => {
@@ -213,7 +190,7 @@ const BanjirTambahScreen = ({navigation}) => {
                 loading={data.loading}/>
             <View style={style.header}>
                 <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack}/>
-                <Text style={{fontSize: 20, fontWeight: 'bold'}}>Laporkan Banjir</Text>
+                <Text style={{fontSize: 20, fontWeight: 'bold'}}>Laporkan Tanah Longsor</Text>
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={{padding: 20}}>
                 <View>
@@ -273,7 +250,26 @@ const BanjirTambahScreen = ({navigation}) => {
                     />
                     <TextInput
                         mode='outlined'
-                        label="Pesan"
+                        label="Judul"
+                        maxLength={12}
+                        theme={{
+                            colors: {
+                                placeholder: COLORS.primary,
+                                text: COLORS.primary,
+                                primary: COLORS.primary,
+                                underlineColor: 'transparent',
+                                background: '#fff'
+                            }
+                        }}
+                        value={data.judul}
+                        onChangeText={text => setData({
+                            ...data,
+                            judul: text
+                        })}
+                    />
+                    <TextInput
+                        mode='outlined'
+                        label="Keterangan"
                         theme={{
                             colors: {
                                 placeholder: COLORS.primary,
@@ -291,62 +287,37 @@ const BanjirTambahScreen = ({navigation}) => {
                             pesan: text
                         })}
                     />
-                    <View>
-                        <RadioButton.Item
-                            label="First item"
-                            theme={{
-                                colors: {
-                                    placeholder: COLORS.primary,
-                                    text: COLORS.primary,
-                                    primary: COLORS.primary,
-                                    underlineColor: 'transparent',
-                                    background: '#fff'
-                                }
-                            }}
-                            value="first"
-                            status={checked === 'first' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('first')}
-                        />
-                        <RadioButton.Item
-                            label="First item"
-                            theme={{
-                                colors: {
-                                    placeholder: COLORS.primary,
-                                    text: COLORS.primary,
-                                    primary: COLORS.primary,
-                                    underlineColor: 'transparent',
-                                    background: '#fff'
-                                }
-                            }}
-                            value="second"
-                            status={checked === 'second' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('second')}
-                        />
-                    </View>
+                    <TextInput
+                        mode='outlined'
+                        label="Alamat"
+                        theme={{
+                            colors: {
+                                placeholder: COLORS.primary,
+                                text: COLORS.primary,
+                                primary: COLORS.primary,
+                                underlineColor: 'transparent',
+                                background: '#fff'
+                            }
+                        }}
+                        value={data.alamat}
+                        multiline={true}
+                        numberOfLines={4}
+                        onChangeText={text => setData({
+                            ...data,
+                            alamat: text
+                        })}
+                    />
 
-                    <Button icon="camera" theme={{
-                        colors: {
-                            placeholder: COLORS.primary,
-                            text: COLORS.primary,
-                            primary: COLORS.primary,
-                            underlineColor: 'transparent',
-                            background: '#fff'
-                        }
-                    }} mode="outlined" style={{marginTop: 10}} onPress={() => pickImage()}>
-                        Upload Foto
-                    </Button>
-
-                    {data.uri === '' ? <View></View> : <View
+                    <View
                         style={{
                             marginVertical: 20,
                             justifyContent: 'center',
                             alignItems: 'center',
                             height: 260,
                         }}>
-                        <Image source={{uri: data.uri}} style={{height: '100%', width: '100%'}}/>
+                        <Image source={{uri: item.source.uri}} style={{height: '100%', width: '100%'}}/>
                     </View>
 
-                    }
 
                 </View>
                 <View style={{
@@ -356,7 +327,7 @@ const BanjirTambahScreen = ({navigation}) => {
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-                    <PrimaryButton title="Laporkan Kebakaran" onPress={_onSubmit}/>
+                    <PrimaryButton title="Submit" onPress={_onSubmit}/>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -394,4 +365,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default BanjirTambahScreen;
+export default TanahLongsorTambahScreen;

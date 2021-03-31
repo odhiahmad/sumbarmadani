@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "sumbarmadani",
     "name": "sumbarmadani",
     "slug": "sumbarmadani",
     "version": "1.0.0",
@@ -17,13 +18,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kominfosumbar.sumbarmadani"
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB5mTPaUe5GZdXSbHpilQzlQHeu9RMU2YE"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.kominfosumbar.sumbarmadani"
     },
     "web": {
       "favicon": "./assets/favicon.png"

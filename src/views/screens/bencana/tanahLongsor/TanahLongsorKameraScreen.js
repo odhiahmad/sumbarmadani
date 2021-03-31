@@ -9,7 +9,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 
 
-const KebakaranKamerascreen = ({navigation}) => {
+const TanahLongsorKameraScreen = ({navigation}) => {
     const cameraRef = useRef();
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
@@ -41,7 +41,7 @@ const KebakaranKamerascreen = ({navigation}) => {
     }
 
     const __takePicture = async () => {
-        // setLoading(true)
+        setLoading(true)
         if (cameraRef.current) {
             const options = { quality: 0, base64: true, skipProcessing: true };
             const data = await cameraRef.current.takePictureAsync(options);
@@ -54,8 +54,8 @@ const KebakaranKamerascreen = ({navigation}) => {
             console.log(source)
 
             if (source) {
-                // setLoading(false)
-                navigation.navigate('KebakaranTambahScreen',{source})
+                setLoading(false)
+                navigation.navigate('TanahLongsorTambahScreen',{source})
                 // await cameraRef.current.pausePreview();
                 //                 // setPreviewVisible(true);
                 //                 // setCapturedImage(source)
@@ -209,4 +209,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default KebakaranKamerascreen;
+export default TanahLongsorKameraScreen;

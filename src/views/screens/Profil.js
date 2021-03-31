@@ -1,12 +1,12 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import React, {useContext} from 'react';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
-import foods from '../../consts/foods';
-import {PrimaryButton} from '../components/Button';
+import {Button} from "react-native-paper";
+import {AuthContext} from "../../utils/authContext";
 
 const Profil = ({navigation}) => {
+    const {signOut} = useContext(AuthContext);
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
             <View style={style.header}>
@@ -17,42 +17,18 @@ const Profil = ({navigation}) => {
                 style={style.container}
                 contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
                 showsVerticalScrollIndicator={false}>
-                <Image
-                    style={style.userImg}
-                    source={{uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}
-                />
-                <Text style={style.userName}>Tes</Text>
-                <Text style={style.aboutUser}>
-                    No details added
-                </Text>
-                <View style={style.userBtnWrapper}>
-                    <TouchableOpacity style={style.userBtn}>
-                        <Text style={style.userBtnTxt}>Message</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={style.userBtn}>
-                        <Text style={style.userBtnTxt}>Follow</Text>
-                    </TouchableOpacity>
+                <View style={style.cartProfil}>
+                    <Icon name="account-circle" color={COLORS.primary} size={120}/>
 
-                    <TouchableOpacity style={style.userBtn}>
-                        <Text style={style.userBtnTxt}>Edit</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={style.userBtn}>
-                        <Text style={style.userBtnTxt}>Logout</Text>
-                    </TouchableOpacity>
+                    <Text style={style.userName}></Text>
+                    <Text style={style.aboutUser}>
+                        No details added
+                    </Text>
                 </View>
-                <View style={style.userInfoWrapper}>
-                    <View style={style.userInfoItem}>
-                        <Text style={style.userInfoTitle}>2323</Text>
-                        <Text style={style.userInfoSubTitle}>Posts</Text>
-                    </View>
-                    <View style={style.userInfoItem}>
-                        <Text style={style.userInfoTitle}>10,000</Text>
-                        <Text style={style.userInfoSubTitle}>Followers</Text>
-                    </View>
-                    <View style={style.userInfoItem}>
-                        <Text style={style.userInfoTitle}>100</Text>
-                        <Text style={style.userInfoSubTitle}>Following</Text>
-                    </View>
+                <View style={style.cartProfil}>
+                    <Button icon="camera" onPress={()=>signOut()} mode="contained" style={{backgroundColor:COLORS.primary}} >
+                       Logout
+                    </Button>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -70,11 +46,6 @@ const style = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 20,
     },
-    userImg: {
-        height: 150,
-        width: 150,
-        borderRadius: 75,
-    },
     userName: {
         fontSize: 18,
         fontWeight: 'bold',
@@ -88,50 +59,31 @@ const style = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 10,
     },
-    userBtnWrapper: {
-        elevation: 15,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        width: '100%',
-        marginBottom: 10,
-    },
-    userBtn: {
-        borderColor: '#2e64e5',
-        borderWidth: 2,
-        borderRadius: 3,
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        marginHorizontal: 5,
-    },
-    userBtnTxt: {
-        color: '#2e64e5',
-    },
-    userInfoWrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        marginVertical: 20,
-
-    },
-    userInfoItem: {
-        height: 100,
-        elevation: 15,
-        marginVertical: 10,
-        marginHorizontal: 20,
-        paddingHorizontal: 10,
+    cartProfil: {
+        width:'98%',
+        height: 220,
+        elevation: 2,
+        borderRadius: 10,
         backgroundColor: COLORS.white,
-        justifyContent: 'center',
+        marginVertical: 3,
+        marginHorizontal: 10,
+        paddingHorizontal: 10,
+        // flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent:'center'
     },
-    userInfoTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 5,
-        textAlign: 'center',
-    },
-    userInfoSubTitle: {
-        fontSize: 12,
-        color: '#666',
-        textAlign: 'center',
+
+    cartProfilFooter: {
+        width:'98%',
+        height: 180,
+        elevation: 2,
+        borderRadius: 10,
+        backgroundColor: COLORS.white,
+        marginVertical: 3,
+        marginHorizontal: 10,
+        paddingHorizontal: 10,
+        // flexDirection: 'row',
+        alignItems: 'center',
     },
 });
 

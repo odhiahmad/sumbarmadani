@@ -14,7 +14,7 @@ import {useTheme} from 'react-native-paper';
 import {apiLogin} from "../../consts/api";
 import LoaderModal from "../components/LoaderModal";
 import COLORS from "../../consts/colors";
-
+import * as GoogleSignIn from 'expo-google-sign-in';
 
 const Login = ({}) => {
 
@@ -89,58 +89,99 @@ const Login = ({}) => {
     }
 
     const loginHandle = (userName, password) => {
-        const masuk = true;
-        const token = 'aQQEQWEDDasdas423r2dsFsdfssfsdfsfsdfsdfqsfsf534534ddfgdfgdfgfd';
-        signIn({masuk, token})
 
-        // setData({
-        //     ...data,
-        //     loading: true
-        // });
-        // return fetch(apiLogin, {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         username: userName,
-        //         password: password
-        //     })
-        // })
-        //     .then((response) => response.json())
-        //     .then((json) => {
-        //
-        //         if (json.status === true) {
-        //             let masuk = json.status
-        //             let token = json.token
-        //             let id_kab = json.id_kab
-        //             console.log(masuk)
-        //
-        //             AsyncStorage.setItem('token', json.token)
-        //             AsyncStorage.setItem('id_kab', json.id_kab)
-        //             setData({
-        //                 ...data,
-        //                 loading: false
-        //             });
-        //
-        //         } else {
-        //             alert(json.message)
-        //             setData({
-        //                 ...data,
-        //                 loading: false
-        //             });
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         alert('Anda sedang tidak terhubung ke jaringan internet')
-        //         setData({
-        //             ...data,
-        //             loading: false
-        //         });
-        //     });
+
+        setData({
+            ...data,
+            loading: true
+        });
+        return fetch(apiLogin, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: userName,
+                password: password
+            })
+        })
+            .then((response) => response.json())
+            .then((json) => {
+                if (json.response === 1) {
+                    const masuk = true;
+                    const token = 'aQQEQWEDDasdas423r2dsFsdfssfsdfsfsdfsdfqsfsf534534ddfgdfgdfgfd';
+                    AsyncStorage.setItem('token', token)
+                    AsyncStorage.setItem('pegawai', json.result[0].pegawai);
+                    AsyncStorage.setItem('token', json.result[0].pegawai);
+                    AsyncStorage.setItem('username', json.result[0].username);
+                    AsyncStorage.setItem('nama_asn', json.result[0].nama_asn);
+                    AsyncStorage.setItem('opd', json.result[0].opd);
+                    AsyncStorage.setItem('nm_opd', json.result[0].nm_opd);
+                    AsyncStorage.setItem('sub_opd', json.result[0].sub_opd);
+                    AsyncStorage.setItem('nm_sub_opd', json.result[0].nm_sub_opd);
+                    AsyncStorage.setItem('jabatan', json.result[0].jabatan);
+                    AsyncStorage.setItem('nip', json.result[0].nip);
+                    AsyncStorage.setItem('id_eselon', json.result[0].id_eselon);
+                    AsyncStorage.setItem('eselon', json.result[0].eselon);
+                    AsyncStorage.setItem('pangkat', json.result[0].pangkat);
+                    AsyncStorage.setItem('jenjang', json.result[0].jenjang);
+
+                    const dataPegawai = json.result;
+                    console.log(json.result)
+                    signIn({masuk, token,dataPegawai})
+                    setData({
+                        ...data,
+                        loading: false
+                    });
+
+                } else {
+                    alert(json.message)
+                    setData({
+                        ...data,
+                        loading: false
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                alert('Anda sedang tidak terhubung ke jaringan internet')
+                setData({
+                    ...data,
+                    loading: false
+                });
+            });
     }
+
+    initAsync = async () => {
+        await GoogleSignIn.initAsync({
+            // You may ommit the clientId when the firebase `googleServicesFile` is configured
+            clientId: '<YOUR_IOS_CLIENT_ID>',
+        });
+        _syncUserWithStateAsync();
+    };
+
+    const _syncUserWithStateAsync = async () => {
+        const user = await GoogleSignIn.signInSilentlyAsync();
+        this.setState({ user });
+    };
+
+    const signOutAsync = async () => {
+        await GoogleSignIn.signOutAsync();
+        this.setState({ user: null });
+    };
+
+    const signInAsync = async () => {
+        try {
+            await GoogleSignIn.askForPlayServicesAsync();
+            const { type, user } = await GoogleSignIn.signInAsync();
+            if (type === 'success') {
+                _syncUserWithStateAsync();
+            }
+        } catch ({ message }) {
+            alert('login: Error:' + message);
+        }
+    };
 
 
     return (

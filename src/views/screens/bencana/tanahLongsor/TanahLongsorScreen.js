@@ -1,45 +1,200 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image, Dimensions} from 'react-native';
-import {FlatList, TouchableHighlight} from 'react-native-gesture-handler';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, Dimensions, RefreshControl, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../../../consts/colors';
-import foods from '../../../../consts/foods';
-import {PrimaryButton} from '../../../components/Button';
 import BottomSheet from "reanimated-bottom-sheet";
-import MapView from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
 import {Button} from "react-native-paper";
-
+import {FlatList, TouchableHighlight} from "react-native-gesture-handler";
+import axios from "axios";
+import {apiBencanaTerban} from "../../../../consts/api";
+import moment from "moment";
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import LoaderModal from "../../../components/LoaderModal";
 
 const {width, height} = Dimensions.get('screen');
 
 const bottomSheetHeight = height / 1.3;
 
 
+const cardHeightBerita = height / 5.6;
 
 const TanahLongsorScreen = ({navigation}) => {
 
+    const [data, setData] = useState({
+        data: [],
+        id: [],
+        loading: false,
+        isRefreshing: false,
+        mapRegion: null,
+        hasLocationPermissions: false,
+        locationResult: null,
+
+    });
+
+    const [page, setPage] = useState(0)
+
+    const handleLoadMore = () => {
+
+        if (!data.loading) {
+            getIndex()
+        }
+    };
+
+    // useEffect(() => {
+    //     handleLoadMore()
+    // });
+
+    const renderFooter = () => {
+        //it will show indicator at the bottom of the list when data is loading otherwise it returns null
+        if (!data.loading) return null;
+        return (
+            <ActivityIndicator
+                size="small"
+                color={COLORS.primary}
+                animating={true}/>
+        );
+    };
+
+    const _getLocationAsync = async () => {
+        let {status} = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+            setData({
+                ...data,
+                locationResult: 'Permission to access location was denied',
+            });
+        } else {
+            setData({
+                ...data, hasLocationPermissions: true
+            });
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setData({
+            ...data, locationResult: JSON.stringify(location)
+        });
+
+        // Center the map on the location we just fetched.
+        setData({
+            ...data,
+            mapRegion: {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.1922,
+                longitudeDelta: 0.1421
+            }
+        });
+    };
+
+
+    const getIndex = async () => {
+        setData({
+            ...data,
+            loading: true,
+        })
+
+        await axios.get(apiBencanaTerban + 'pengaduanBelumDitangani')
+            .then(response => {
+                setTimeout(() => {
+
+                    setData({
+                        ...data,
+                        loading: false,
+                        data: response.data.result,
+                    })
+                }, 2000)
+            })
+            .catch(error => {
+                setData({
+                    ...data,
+                    loading: false,
+                })
+                console.log(error);
+            });
+    }
+
+
+    useEffect(() => {
+        // Fetch the token from storage then navigate to our appropriate place
+        getIndex()
+        _getLocationAsync()
+
+    }, []);
+
+    const CartCardNews = ({item}) => {
+        return (
+            <TouchableHighlight
+                underlayColor={COLORS.white}
+                activeOpacity={0.9}
+                onPress={() => navigation.navigate('DetailsNewsScreen', item)}>
+                {/*<Image source={item.image} style={{height: 80, width: 80}}/>*/}
+                <View style={style.cartCard}>
+                    <View
+                        style={{
+                            height: cardHeightBerita - 10,
+                            marginLeft: 10,
+                            paddingVertical: 20,
+                            flex: 1,
+                        }}>
+                        <Text style={{fontSize: 13}}>{item.nm_jenis}</Text>
+                        <Text style={{fontSize: 11, color: 'gray', marginTop: 5}}>{item.alamat}</Text>
+
+                        <Text style={{
+                            marginTop: 5,
+                            fontSize: 11,
+                            color: 'gray'
+                        }}>
+                            {/*<Icon name='date-range' size={11}*/}
+                            {/*      color={COLORS.primary}/>*/}
+                            {moment(item.created_date).startOf('day').fromNow()}</Text>
+                    </View>
+                    <View style={{marginRight: 20, alignItems: 'center'}}>
+                        <Text style={{
+                            fontWeight: 'bold',
+                            fontSize: 16,
+                            textDecorationLine: 'underline',
+                            color: COLORS.primary
+                        }}>Lihat</Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
+        );
+    };
+
+    const openTab = () => {
+        navigation.navigate('TanahLongsorKameraScreen')
+    }
     const renderContent = () => (
         <View
             style={{
-                borderRadius:30,
+                borderRadius: 30,
                 backgroundColor: 'white',
                 height: bottomSheetHeight,
             }}
         >
-            <View
-                style={{
-                    alignItems: 'center'
-                }}
-            >
-                <Icon name='menu' size={40}
-                      color={COLORS.primary}/>
-                <Button icon="camera" mode="contained" style={{backgroundColor:COLORS.primary}} onPress={() => console.log('Pressed')}>
+            <View style={{alignItems: 'center',marginTop:5}}>
+                <Button icon="camera" mode="contained" onPress={openTab} style={{backgroundColor: COLORS.primary}}>
                     Laporkan
                 </Button>
+
             </View>
-            {/*<View style={style.cartCard}>*/}
-            {/*    <Icon name='place' size={40} color={COLORS.primary}></Icon>*/}
-            {/*</View>*/}
+            <FlatList
+                refreshControl={
+                    <RefreshControl
+                        refreshing={data.isRefreshing}
+                        onRefresh={getIndex}
+                    />
+                }
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{paddingBottom: 80}}
+                data={data.data}
+                renderItem={({item}) => <CartCardNews item={item}/>}
+                listKey={(item, index) => index.toString()}
+                keyExtractor={(item, index) => index.toString()}
+                // onEndReachedThreshold={0.4}
+                // onEndReached={handleLoadMore}
+            />
         </View>
     );
 
@@ -47,17 +202,38 @@ const TanahLongsorScreen = ({navigation}) => {
 
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
+            <LoaderModal
+                loading={data.loading}/>
             <View style={style.header}>
-                <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack} />
+                <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Tanah Longsor</Text>
             </View>
-            <MapView style={style.map} />
+            {data.data.length === 0 ? <View></View> :
+                <MapView
+                    // onLayout={onMapReady}
+                    style={style.map}
+                    region={data.mapRegion}
+                >
+
+
+                    {data.data.map((marker, index) => (
+                        <Marker
+                            key={index}
+                            coordinate={{latitude: parseFloat(marker.latitude), longitude: parseFloat(marker.longitude)}}
+                            title={marker.nm_jenis}
+                            description={marker.alamat}
+                        />
+                    ))}
+                </MapView>
+            }
+
             <BottomSheet
                 // enabledInnerScrolling={true}
                 // enabledBottomInitialAnimation={true}
                 // enabledBottomClamp={true}
+                enabledContentTapInteraction={false}
                 ref={sheetRef}
-                snapPoints={[bottomSheetHeight - 40, 300, 100]}
+                snapPoints={[bottomSheetHeight - 40, 300, 200]}
                 borderRadius={10}
                 renderContent={renderContent}
             />
@@ -72,10 +248,10 @@ const style = StyleSheet.create({
         marginHorizontal: 20,
     },
     footer: {
-        flex:1,
-        height:200,
+        flex: 1,
+        height: 200,
         paddingVertical: 20,
-        justifyContent:'flex-end',
+        justifyContent: 'flex-end',
         marginHorizontal: 20,
     },
     map: {
@@ -83,8 +259,8 @@ const style = StyleSheet.create({
         height: Dimensions.get('window').height,
     },
     cartCard: {
-        height: 40,
-        elevation: 15,
+        height: cardHeightBerita,
+        elevation: 2,
         borderRadius: 10,
         backgroundColor: COLORS.white,
         marginVertical: 10,
